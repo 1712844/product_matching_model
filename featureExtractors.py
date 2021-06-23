@@ -1,5 +1,10 @@
 import re
 import numpy as np
+from fuzzywuzzy import fuzz
+
+def fuzzy_rate(row):
+    ratio = fuzz.token_set_ratio(row.product1.lower(), row.product2.lower())
+    return ratio/100
 
 def get_rate(row):
     product1 = row.product1
@@ -103,6 +108,10 @@ def levenshtein_rate(product1, product2):
     distance = levenshtein(product1, product2)
     max_len = max(len(product1), len(product2))
     return 1 - (distance / max_len)
+
+def get_price_rate(price1, price2):
+    pr = price1/price2
+    return pr if (pr <= 1) else (1/pr)
 
 
 if __name__ == "__main__":
